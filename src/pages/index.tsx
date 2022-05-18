@@ -3,6 +3,7 @@ import Head from "next/head";
 import Image from "next/image";
 
 import styles from "@styles/home.module.scss";
+import { SubscribeButton } from "@components/SubscribeButton";
 
 export default function Home() {
   return (
@@ -15,12 +16,13 @@ export default function Home() {
         <section className={styles.hero}>
           <span>👏 Olá, bem vindo!</span>
           <h1>
-            Notícias sobre o mundo <span>React</span>
+            Notícias sobre <br />o mundo <span>React</span>
           </h1>
           <p>
             Tenha acesso a todas as publicações <br />
             <span>por apenas R$9,90 mensais.</span>
           </p>
+          <SubscribeButton />
         </section>
 
         <Image

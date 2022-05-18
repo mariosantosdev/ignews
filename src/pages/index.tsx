@@ -4,7 +4,7 @@ import Image from "next/image";
 
 import styles from "@styles/home.module.scss";
 import { SubscribeButton } from "@components/SubscribeButton";
-import { GetServerSideProps } from "next";
+import { GetServerSideProps, GetStaticProps } from "next";
 import { stripe } from "@services/stripe";
 
 interface HomeProps {
@@ -31,7 +31,7 @@ export default function Home({ product }: HomeProps) {
             Tenha acesso a todas as publicações <br />
             <span>por apenas {product?.amount} mensais.</span>
           </p>
-          <SubscribeButton />
+          <SubscribeButton priceId={product.priceId} />
         </section>
 
         <Image
@@ -45,10 +45,8 @@ export default function Home({ product }: HomeProps) {
   );
 }
 
-export const getServerSideProps: GetServerSideProps = async () => {
-  const price = await stripe.prices.retrieve("price_1L0fVNBkb8DvbWYIDzd1yVxQ", {
-    expand: ["product"],
-  });
+export const getStaticProps: GetStaticProps = async () => {
+  const price = await stripe.prices.retrieve("price_1L0fVNBkb8DvbWYIDzd1yVxQ");
 
   const product = {
     priceId: price.id,
@@ -60,5 +58,6 @@ export const getServerSideProps: GetServerSideProps = async () => {
 
   return {
     props: { product },
+    revalidate: 60 * 60 * 60, // 24 horas
   };
 };

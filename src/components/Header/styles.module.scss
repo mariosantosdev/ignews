@@ -2,7 +2,7 @@ $header-height: 5rem;
 
 .headerContainer {
   height: $header-height;
-  border-bottom: 1px solid var(--gray-800);
+  border-bottom: 1px solid var(--gray-700);
 }
 
 .headerContent {
@@ -51,5 +51,9 @@ $header-height: 5rem;
         }
       }
     }
+  }
+
+  button {
+    margin-left: auto;
   }
 }

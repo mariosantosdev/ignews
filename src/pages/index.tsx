@@ -1,3 +1,14 @@
+import Head from "next/head";
+import { Fragment } from "react";
+
 export default function Home() {
-  return <h1>Hello World!</h1>;
+  return (
+    <Fragment>
+      <Head>
+        <title>Ig.news - Inicio</title>
+      </Head>
+
+      <h1>Hello, world!</h1>
+    </Fragment>
+  );
 }

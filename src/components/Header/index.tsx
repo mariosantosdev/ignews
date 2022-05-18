@@ -1,3 +1,4 @@
+import { SignInButton } from "@components/SignInButton";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -22,6 +23,8 @@ export function Header() {
             <a>Postagens</a>
           </Link>
         </nav>
+
+        <SignInButton />
       </div>
     </header>
   );

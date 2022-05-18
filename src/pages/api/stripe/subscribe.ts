@@ -1,6 +1,17 @@
+import { fauna } from "@services/fauna";
 import { stripe } from "@services/stripe";
 import { NextApiRequest, NextApiResponse } from "next";
 import { getSession } from "next-auth/react";
+import { query as q } from "faunadb";
+
+type User = {
+  ref: {
+    id: string;
+  };
+  data: {
+    stripe_customer_id: string;
+  };
+};
 
 export default async function Subscribe(
   req: NextApiRequest,
@@ -12,10 +23,24 @@ export default async function Subscribe(
 
     const { email, name } = session.user;
 
-    const stripeCustomer = await stripe.customers.create({ email, name });
+    const user = await fauna.query<User>(
+      q.Get(q.Match(q.Index("index_by_email"), q.Casefold(email)))
+    );
+    let stripeCustomerId = user.data.stripe_customer_id;
+
+    if (!stripeCustomerId) {
+      const stripeCustomer = await stripe.customers.create({ email, name });
+      stripeCustomerId = stripeCustomer.id;
+
+      await fauna.query(
+        q.Update(q.Ref(q.Collection("users"), user.ref.id), {
+          data: { stripe_customer_id: stripeCustomerId },
+        })
+      );
+    }
 
     const stripeCheckoutSession = await stripe.checkout.sessions.create({
-      customer: stripeCustomer.id,
+      customer: stripeCustomerId,
       payment_method_types: ["card"],
       billing_address_collection: "required",
       line_items: [{ price: priceId, quantity: 1 }],

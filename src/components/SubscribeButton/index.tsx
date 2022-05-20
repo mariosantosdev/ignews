@@ -1,18 +1,27 @@
 import { useCallback } from "react";
 import { api } from "@services/api";
 import { getStripeJS } from "@services/stripeJs";
-import { signIn, useSession } from "next-auth/react";
+import { signIn, getSession } from "next-auth/react";
 
 import styles from "./styles.module.scss";
+import { useRouter } from "next/router";
 
 interface SubscribeButtonProps {
   priceId: string;
 }
 
 export function SubscribeButton({ priceId }: SubscribeButtonProps) {
-  const { status } = useSession();
+  const router = useRouter();
+
   const handleSubscribe = useCallback(async () => {
-    if (status !== "authenticated") return signIn("github");
+    const session = await getSession();
+
+    if (!session) return signIn("github");
+
+    if (session.activeSubscription) {
+      router.push("/posts");
+      return;
+    }
 
     try {
       const response = await api.post("/stripe/subscribe", { priceId });
@@ -24,7 +33,7 @@ export function SubscribeButton({ priceId }: SubscribeButtonProps) {
     } catch (error) {
       alert(error.message);
     }
-  }, [status, priceId]);
+  }, [priceId, router]);
 
   return (
     <button

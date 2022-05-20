@@ -89,5 +89,6 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
       post,
     },
     notFound: !Boolean(post),
+    redirect: 60 * 60, // 1 hora
   };
 };

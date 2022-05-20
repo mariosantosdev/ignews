@@ -9,3 +9,4 @@ This project is a news website that need plan subscription.
 [NextJS](https://nextjs.org/)
 [Stripe](https://stripe.com/br)
 [FaunaDB](https://fauna.com/)
+[Prismic CMS](https://prismic.io/)

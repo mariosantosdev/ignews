@@ -7,9 +7,10 @@ const customJestConfig = {
   },
   moduleNameMapper: {
     // Handle module aliases (this will be automatically configured for you soon)
-    "^@/styles/(.*)$": "<rootDir>/src/styles/$1",
-    "^@/components/(.*)$": "<rootDir>/src/components/$1",
-    "^@/services/(.*)$": "<rootDir>/src/services/$1",
+    "\\.(scss|css|sass)$": "identity-obj-proxy",
+    "^@styles/(.*)$": "<rootDir>/src/styles/$1",
+    "^@components/(.*)$": "<rootDir>/src/components/$1",
+    "^@services/(.*)$": "<rootDir>/src/services/$1",
   },
   testEnvironment: "jsdom",
 };

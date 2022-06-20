@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "test": "next test"
+    "test": "jest test"
   },
   "dependencies": {
     "@prismicio/client": "^6.4.3",

@@ -1,5 +1,5 @@
 import { fireEvent, render, screen } from "@testing-library/react";
-import { useSession, signOut } from "next-auth/react";
+import { useSession, signOut, signIn } from "next-auth/react";
 import { mocked } from "jest-mock";
 
 import { SignInButton } from ".";
@@ -29,6 +29,28 @@ describe("SignInButton Component", () => {
     render(<SignInButton />);
 
     expect(screen.getByText("John Doe")).toBeInTheDocument();
+  });
+
+  it("Should signIn GitHub when user clicks on the login button", () => {
+    const useSessionMock = mocked(useSession);
+    useSessionMock.mockReturnValueOnce({
+      data: null,
+      status: "unauthenticated",
+    });
+
+    const signOutMock = mocked(signIn);
+
+    render(<SignInButton />);
+
+    fireEvent(
+      screen.getByText("Entrar com GitHub"),
+      new MouseEvent("click", {
+        bubbles: true,
+        cancelable: true,
+      })
+    );
+
+    expect(signOutMock).toHaveBeenCalledWith("github");
   });
 
   it("Should signOut when user clicks on the logout button", () => {

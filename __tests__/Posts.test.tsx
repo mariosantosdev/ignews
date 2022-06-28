@@ -9,12 +9,13 @@ const posts = [
     slug: "my-new-post",
     title: "My New Post",
     excerpt: "Post Excerpt",
+    updatedAt: "19 de junho de 2022",
   },
 ];
 
 jest.mock("../src/services/prismic");
 
-describe("Home Page", () => {
+describe("Posts Page", () => {
   it("renders correctly", () => {
     render(<Posts posts={posts} />);
 

@@ -17,7 +17,7 @@ jest.mock("next-auth/react");
 jest.mock("next/router");
 jest.mock("../src/services/prismic");
 
-describe("Home Page", () => {
+describe("Post Preview Page", () => {
   it("renders correctly", () => {
     const useSessionsMocked = mocked(useSession);
 

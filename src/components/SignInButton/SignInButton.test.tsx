@@ -1,5 +1,5 @@
-import { render, screen } from "@testing-library/react";
-import { useSession } from "next-auth/react";
+import { fireEvent, render, screen } from "@testing-library/react";
+import { useSession, signOut } from "next-auth/react";
 import { mocked } from "jest-mock";
 
 import { SignInButton } from ".";
@@ -29,5 +29,27 @@ describe("SignInButton Component", () => {
     render(<SignInButton />);
 
     expect(screen.getByText("John Doe")).toBeInTheDocument();
+  });
+
+  it("Should signOut when user clicks on the logout button", () => {
+    const useSessionMock = mocked(useSession);
+    useSessionMock.mockReturnValueOnce({
+      data: { user: { name: "John Doe" }, expires: String(Date.now()) },
+      status: "authenticated",
+    });
+
+    const signOutMock = mocked(signOut);
+
+    render(<SignInButton />);
+
+    fireEvent(
+      screen.getByText("John Doe"),
+      new MouseEvent("click", {
+        bubbles: true,
+        cancelable: true,
+      })
+    );
+
+    expect(signOutMock).toHaveBeenCalled();
   });
 });

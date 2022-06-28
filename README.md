@@ -15,6 +15,8 @@ This project is a news website that need plan subscription.
 - [Stripe](https://stripe.com/br) - Payment gateway
 - [FaunaDB](https://fauna.com/) - Serverless Database
 - [Prismic CMS](https://prismic.io/) - Content Management System
+- [Jest](https://jestjs.io/) - JavaScript Testing Framework
+- [Testing Librart](https://testing-library.com/) - Simple and complete testing utilities
 
 ## How Run It
 
